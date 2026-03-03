@@ -6,6 +6,14 @@
     <title>Drawing Tool - Student View</title>
     <link rel="stylesheet" href="styles.css">
     <script src="/socket.io/socket.io.js"></script>
+    <!-- Google tag (gtag.js) - replace G-XXXXXXXXXX with your Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
     <div class="container">
@@ -27,6 +35,13 @@
             <button id="clearBtn" class="tool-btn">Clear</button>
             <button id="undoBtn" class="tool-btn">Undo</button>
             <button id="redoBtn" class="tool-btn">Redo</button>
+        </div>
+        <div class="text-input-section">
+            <h3>Text Response</h3>
+            <div class="text-input-row">
+                <textarea id="textInput" placeholder="Type your response here..." maxlength="1000"></textarea>
+                <button id="textSubmitBtn" class="tool-btn text-submit-btn">Submit</button>
+            </div>
         </div>
     </div>
 
@@ -679,6 +694,20 @@
         
         // Initialize UI
         updateButtons();
+        
+        // Text input submission
+        document.getElementById('textSubmitBtn').addEventListener('click', function() {
+            const text = document.getElementById('textInput').value.trim().slice(0, 1000);
+            if (!text) return;
+            socket.emit('textSubmit', { username, sessionCode, text });
+            document.getElementById('textInput').value = '';
+        });
+        
+        document.getElementById('textInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                document.getElementById('textSubmitBtn').click();
+            }
+        });
     </script>
 </body>
 </html> 

@@ -361,6 +361,24 @@ io.on('connection', (socket) => {
         }
     });
 
+    // Handle text submissions from students
+    socket.on('textSubmit', ({ username, sessionCode, text }) => {
+        if (!rooms.has(sessionCode)) return;
+        
+        const room = rooms.get(sessionCode);
+        if (!room.students.has(username)) return;
+        
+        // Validate text input
+        if (typeof text !== 'string') return;
+        const sanitizedText = text.trim().slice(0, 1000);
+        if (!sanitizedText) return;
+        
+        // Forward text to the teacher
+        if (room.teacherSocketId) {
+            io.to(room.teacherSocketId).emit('textSubmit', { username, text: sanitizedText });
+        }
+    });
+
     // Handle disconnections
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
