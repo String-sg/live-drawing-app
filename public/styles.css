@@ -442,11 +442,9 @@ input[type="range"]::-moz-range-thumb {
     }
     
     .tools {
-        flex-direction: column;
-        gap: 15px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
     }
-    
-    .color-buttons {
-        order: -1;
-    }
-} 
+}
