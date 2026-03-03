@@ -20,6 +20,10 @@ app.get('/console', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'teacher.html'));
 });
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // Store drawing history for each student and track teachers
 const rooms = new Map(); // sessionCode -> { students: Map<username, {history, currentStep}>, teacherSocketId: string }
 

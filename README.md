@@ -51,7 +51,8 @@ To deploy to any Node.js-supported platform (Heroku, Railway, Render, etc.):
 
 1. Push this repo to GitHub.
 2. Set the build command to `npm install` and the start command to `node server.js`.
-3. Optionally use a reverse proxy or HTTPS config for production.
+3. Set the health check path to `/health`.
+4. Optionally use a reverse proxy or HTTPS config for production.
 
 ## 💡 Potential Extensions
 
